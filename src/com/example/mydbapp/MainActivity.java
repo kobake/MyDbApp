@@ -49,14 +49,16 @@ public class MainActivity extends Activity {
 		// select
 		Cursor cursor = null;
 		try{
+			// ※もっと複雑なクエリを組みたい場合は SQLiteQueryBuilder が良いらしい。
 			cursor = db.query(
 					MyAppContract.Users.TABLE_NAME, // table
 					new String[]{"_id", "name", "score"}, // fields
-					"score > ?", // where
-					new String[]{"60"}, // where args
+					null, //"name like ?", //"score > ?", // where
+					null, // new String[]{"%t%"}, // new String[]{"60"}, // where args
 					null, // group by
 					null, // having
-					null // order by
+					null //"score desc", // order by
+					// "2" // limit
 			);
 			Log.v("DB_TEST", "Count: " + cursor.getCount());
 			while(cursor.moveToNext()){
@@ -70,6 +72,17 @@ public class MainActivity extends Activity {
 				cursor.close();
 			}
 		}
+		
+		// update
+		ContentValues values = new ContentValues();
+		values.put(MyAppContract.Users.COLUMN_SCORE, 100);
+		int updatedCount = db.update(
+				MyAppContract.Users.TABLE_NAME,
+				values,
+				"score > ?",
+				new String[]{"80"}
+		);
+		Log.v("DB_TEST", "Updated: " + updatedCount);
 	}
 
 }
