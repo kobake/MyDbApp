@@ -22,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.example.mydbapp.mycontentprovider"
+            android:name="com.example.mydbapp.MyContentProvider"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>

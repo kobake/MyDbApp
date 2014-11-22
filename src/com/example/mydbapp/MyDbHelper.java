@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDbHelper extends SQLiteOpenHelper{
 
 	public static final String DB_NAME = "myapp.db";
-	public static final int DB_VERSION = 1; // version for migration
+	public static final int DB_VERSION = 2; // version for migration
 	
 	public MyDbHelper(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
