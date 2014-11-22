@@ -69,12 +69,21 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor>{
 					values.put(MyAppContract.Users.COLUMN_SCORE, 50);
 					getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
 				}
-				if(true){
+				if(false){
 					Uri uri = ContentUris.withAppendedId(MyContentProvider.CONTENT_URI, id);
 					String selection = MyAppContract.Users.COLUMN_ID + " = ?";
 					String[] selectionArgs = new String[]{ Long.toString(id) };
 					getContentResolver().delete(uri, selection, selectionArgs);
-
+				}
+				if(true){
+					Uri uri = ContentUris.withAppendedId(MyContentProvider.CONTENT_URI, id);
+					String selection = MyAppContract.Users.COLUMN_ID + " = ?";
+					String[] selectionArgs = new String[]{ Long.toString(id) };
+					
+					ContentValues values = new ContentValues();
+					values.put(MyAppContract.Users.COLUMN_SCORE, 100);
+					
+					getContentResolver().update(uri, values, selection, selectionArgs);
 				}
 				
 			}

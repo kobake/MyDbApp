@@ -94,8 +94,13 @@ public class MyContentProvider extends ContentProvider{
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(uriMatcher.match(uri) != USER_ITEM){
+			throw new IllegalArgumentException("Unknown URI: " + uri);
+		}
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		int count = db.update(MyAppContract.Users.TABLE_NAME, values, selection, selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 }
