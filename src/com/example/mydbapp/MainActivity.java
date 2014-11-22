@@ -2,11 +2,13 @@ package com.example.mydbapp;
 
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
@@ -61,10 +63,19 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor>{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				ContentValues values = new ContentValues();
-				values.put(MyAppContract.Users.COLUMN_NAME, "tanaka");
-				values.put(MyAppContract.Users.COLUMN_SCORE, 50);
-				getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+				if(false){
+					ContentValues values = new ContentValues();
+					values.put(MyAppContract.Users.COLUMN_NAME, "tanaka");
+					values.put(MyAppContract.Users.COLUMN_SCORE, 50);
+					getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+				}
+				if(true){
+					Uri uri = ContentUris.withAppendedId(MyContentProvider.CONTENT_URI, id);
+					String selection = MyAppContract.Users.COLUMN_ID + " = ?";
+					String[] selectionArgs = new String[]{ Long.toString(id) };
+					getContentResolver().delete(uri, selection, selectionArgs);
+
+				}
 				
 			}
 		});

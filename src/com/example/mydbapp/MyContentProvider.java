@@ -82,8 +82,13 @@ public class MyContentProvider extends ContentProvider{
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(uriMatcher.match(uri) != USER_ITEM){
+			throw new IllegalArgumentException("Unknown URI: " + uri);
+		}
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		int count = db.delete(MyAppContract.Users.TABLE_NAME, selection, selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 	@Override
