@@ -12,6 +12,9 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class MainActivity extends Activity implements LoaderCallbacks<Cursor>{
@@ -50,6 +53,21 @@ public class MainActivity extends Activity implements LoaderCallbacks<Cursor>{
 		
 		// ListViewにadapter設置
 		list.setAdapter(adapter);
+		
+		// click
+		list.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				ContentValues values = new ContentValues();
+				values.put(MyAppContract.Users.COLUMN_NAME, "tanaka");
+				values.put(MyAppContract.Users.COLUMN_SCORE, 50);
+				getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+				
+			}
+		});
 		
 		// (1)Loader初期化
 		getLoaderManager().initLoader(0, null, this);

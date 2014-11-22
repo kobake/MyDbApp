@@ -1,6 +1,7 @@
 package com.example.mydbapp;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -56,6 +57,7 @@ public class MyContentProvider extends ContentProvider{
 				null,
 				sortOrder
 		);
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 
@@ -68,7 +70,14 @@ public class MyContentProvider extends ContentProvider{
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		// TODO Auto-generated method stub
-		return null;
+		if(uriMatcher.match(uri) != USERS){
+			throw new IllegalArgumentException("Unknown URI: " + uri);
+		}
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		long newId = db.insert(MyAppContract.Users.TABLE_NAME, null, values);
+		Uri newUri = ContentUris.withAppendedId(MyContentProvider.CONTENT_URI, newId);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return newUri;
 	}
 
 	@Override
